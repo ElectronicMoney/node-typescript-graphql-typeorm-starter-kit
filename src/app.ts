@@ -19,8 +19,6 @@ export const startServer = async () => {
     const PORT = process.env.PORT;
     const app:Application = express();
 
-
-  
     // ...
     const schema = await buildSchema({
         resolvers: [
@@ -29,7 +27,10 @@ export const startServer = async () => {
     });
 
 
-    const server = new ApolloServer({ schema });
+    const server = new ApolloServer({ 
+        schema,
+        context: ({req, res}) => ({req, res})
+    });
 
     server.applyMiddleware({ app, path:'/graphql' });
 

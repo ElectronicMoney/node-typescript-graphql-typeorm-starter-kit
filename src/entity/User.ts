@@ -8,26 +8,26 @@ export class User extends BaseEntity {
 
     @Field(() => ID)
     @PrimaryGeneratedColumn()
-    id: number | undefined;
+    id!: number;
 
     @Field(() => String)
     @Column('text')
-    firstName: string | undefined;
+    firstName!: string;
 
     @Field(() => String)
     @Column('text')
-    lastName: string | undefined;
+    lastName!: string;
 
     @Field(() => String)
-    @Column('text', {unique:true})
-    username: string | undefined;
+    @Column('text', { unique: true })
+    username!: string;
 
     @Field(() => String)
-    @Column('text', {unique: true})
-    email: string | undefined;
+    @Column('text', { unique: true })
+    email!: string;
 
     @Field(() => String)
     @Column('text')
-    password: string | undefined;
+    password!: string;
 
 }
