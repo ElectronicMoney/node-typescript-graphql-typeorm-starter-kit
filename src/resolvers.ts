@@ -34,8 +34,6 @@ export const resolvers = {
 
         const newUser = await entityManager.save(user);
 
-        console.log(newUser);
-
         return newUser;
       } 
     }

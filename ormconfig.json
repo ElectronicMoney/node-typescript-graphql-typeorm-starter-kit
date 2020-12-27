@@ -4,9 +4,9 @@
     "port": 5432,
     "username": "cafafanscoders",
     "password": "Tessy@38385763",
-    "database": "graphql-ts-server",
+    "database": "graphql_express_server",
     "synchronize": true,
-    "logging": false,
+    "logging": true,
     "entities": [
        "src/entity/**/*.ts"
     ],
