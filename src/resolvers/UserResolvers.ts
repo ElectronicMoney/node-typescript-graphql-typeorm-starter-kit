@@ -1,8 +1,7 @@
 import {Arg, Ctx, Field, Mutation, ObjectType, Query, Resolver } from 'type-graphql';
 import {User} from "../entity/User";
 import bcrypt, { compare } from 'bcryptjs';
-import {getManager} from "typeorm";
-import { CreateUserInput } from './CreateUserInput';
+import { CreateUserInput } from '../UsersService/CreateUserInput';
 import { Auth } from '../Authentication/Auth';
 import { AppContext } from '../AppContext';
 
@@ -16,19 +15,29 @@ class LoginResponse {
 
 @Resolver()
 export class UserResolver {
-    private user: string = 'Get User Resolver!';
 
-    @Query(() => String)
-    async getUser() {
-      return await this.user;
+  // Get User Query
+    @Query(() => User)
+    async getUser(
+      @Arg('username') username: string,
+    ): Promise<User> {
+       // Get the User
+       const user = await User.findOne({where: {username}});
+       // Check if the user is found 
+       if (!user) {
+        throw new Error("No User found for the given username!");
+      }
+      // Return The user
+      return user;
     }
   
+    // Create User Mutatation
     @Mutation(() => User)
     async createUser(
       @Arg('user') {firstName, lastName, email, username, password}: CreateUserInput
     ): Promise<User> {
       
-      const entityManager = getManager(); // you can also get it via getConnection().manager
+      // Create the instance of a User
       const user = new User()
 
       user.firstName = firstName;
@@ -37,7 +46,7 @@ export class UserResolver {
       user.username  = username;
       user.password = await bcrypt.hash(password, 10);
 
-      const newUser = await entityManager.save(user);
+      const newUser = await user.save();
 
       return newUser; 
     }
