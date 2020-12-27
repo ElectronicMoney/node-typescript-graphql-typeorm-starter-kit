@@ -2,6 +2,7 @@ import {Arg, Mutation, Query, Resolver } from 'type-graphql';
 import {User} from "../entity/User";
 import bcrypt from 'bcryptjs';
 import {getManager} from "typeorm";
+import { CreateUserInput } from './CreateUserInput';
 
 
 @Resolver()
@@ -15,11 +16,7 @@ export class UserResolver {
   
     @Mutation(() => User)
     async createUser(
-      @Arg('firstName') firstName: string,
-      @Arg('lastName') lastName: string,
-      @Arg('email') email: string,
-      @Arg('username') username: string,
-      @Arg('password') password: string
+      @Arg('user') {firstName, lastName, email, username, password}: CreateUserInput
     ): Promise<User> {
       
       const entityManager = getManager(); // you can also get it via getConnection().manager

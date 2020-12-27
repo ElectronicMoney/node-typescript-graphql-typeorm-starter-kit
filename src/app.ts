@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 import express, {Application} from 'express';
 import {createConnection, Connection} from "typeorm";
 import { ApolloServer } from 'apollo-server-express';
-import {buildSchema } from 'type-graphql';
+import { buildSchema } from 'type-graphql';
 import { UserResolver } from "./resolvers/index";
 
 
@@ -29,7 +29,7 @@ export const startServer = async () => {
     });
 
 
-    const server = new ApolloServer({ schema});
+    const server = new ApolloServer({ schema });
 
     server.applyMiddleware({ app, path:'/graphql' });
 
