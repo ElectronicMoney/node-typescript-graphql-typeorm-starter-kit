@@ -28,13 +28,23 @@ class LoginResponse {
 export class UserResolver {
 
     // Get User Query
-    @Query(() => String)
+    @Query(() => User)
     @UseMiddleware(AuthMiddleware)
-    getProfile(
+    async getProfile(
       @Ctx() {payload}: AppContext
-    ) {
+    ): Promise<User> {
       // Return The user Id
-      return `Your User Id is ${payload!.userId}`;
+      // return `Your User Id is ${payload!.userId}`;
+      const id = payload!.userId;
+      // Get the User
+      const user = await User.findOne({where: {id}});
+      // Check if the user is found 
+      if (!user) {
+         throw new Error("No User found for the given id!");
+       }
+       // Return The user
+       return user;
+
     }
 
   // Get User Query
