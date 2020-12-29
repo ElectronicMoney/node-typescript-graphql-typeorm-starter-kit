@@ -1,9 +1,20 @@
-import {Arg, Ctx, Field, Mutation, ObjectType, Query, Resolver } from 'type-graphql';
+import {
+  Arg, 
+  Ctx, 
+  Field, 
+  Mutation, 
+  ObjectType, 
+  Query, 
+  Resolver, 
+  UseMiddleware 
+} from 'type-graphql';
+
 import {User} from "../entity/User";
 import bcrypt, { compare } from 'bcryptjs';
 import { CreateUserInput } from '../UsersService/CreateUserInput';
 import { Auth } from '../Authentication/Auth';
 import { AppContext } from '../AppContext';
+import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 
 // The Login Response Oject Type
 @ObjectType()
@@ -15,6 +26,16 @@ class LoginResponse {
 
 @Resolver()
 export class UserResolver {
+
+    // Get User Query
+    @Query(() => String)
+    @UseMiddleware(AuthMiddleware)
+    getProfile(
+      @Ctx() {payload}: AppContext
+    ) {
+      // Return The user Id
+      return `Your User Id is ${payload!.userId}`;
+    }
 
   // Get User Query
     @Query(() => User)
